@@ -4,21 +4,19 @@
 package in.gov.uidai.auth.sampleapp;
 
 import java.awt.Desktop;
-import java.awt.Panel;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
+
+/*import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
+import org.apache.commons.httpclient.methods.PostMethod;*/
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-
-import org.apache.fop.pdf.PDFPage;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -33,7 +31,6 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import in.cdac.esign_v1.Esign;
-import in.gov.uidai.auth.sampleapp.Customer.UserBuilder;
 
 /**
  * @author Sonal
@@ -298,6 +295,7 @@ public class GenerateBankForm extends JFrame{
 		File pdfFile = new File(aadharId+ ".pdf");
 		if (pdfFile.exists()) {
 			sendESignRequestForDocument(aadharId);
+			System.out.println("<EsignResp status=\"\" ts=\"\" txn=\"\" resCode=\"\" errCode=\"\" errMsg=\"\"><SignedData></SignedData><UserX509Certificate></UserX509Certificate><Pkcs7Response></Pkcs7Response><AadhaarResp></AadhaarResp><Signature></Signature></EsignResp>");
 			if (Desktop.isDesktopSupported()) {
 				try {
 					Desktop.getDesktop().open(pdfFile);
@@ -329,6 +327,8 @@ public class GenerateBankForm extends JFrame{
 				jaxbObjectToXML(esign);
 				
 				JOptionPane.showMessageDialog(this,"Sending Esign Request: "+ esign);
+				
+//				postXMLDataToEsign(esign);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -339,7 +339,30 @@ public class GenerateBankForm extends JFrame{
 	
 
 	
-	 private static void jaxbObjectToXML(Esign emp) {
+	 /*private void postXMLDataToEsign(Esign esign) {
+		 String strURL = "https://www.esp1.com/esign/1.0/signdoc";
+		    String strXMLFilename = "xmlfile.xml";
+		    File input = new File(strXMLFilename);
+		    PostMethod post = new PostMethod(strURL);
+		    try {
+		        post.setRequestEntity(new InputStreamRequestEntity(
+		                new FileInputStream(input), input.length()));
+		        post.setRequestHeader("Content-type",
+		                "text/xml; charset=ISO-8859-1");
+		        HttpClient httpclient = new HttpClient();
+
+		        int result = httpclient.executeMethod(post);
+		        System.out.println("Response status code: " + result);
+		        System.out.println("Response body: ");
+		        System.out.println(post.getResponseBodyAsString());
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    } finally {
+		        post.releaseConnection();
+		    }
+	}*/
+
+	private static void jaxbObjectToXML(Esign emp) {
 		 
 	        try {
 	            JAXBContext context = JAXBContext.newInstance(Esign.class);
