@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Built-By: Sonal
+Build-Jdk: 1.8.0_60
+Class-Path: protobuf-java-2.4.1.jar
+Created-By: Maven Integration for Eclipse
+
