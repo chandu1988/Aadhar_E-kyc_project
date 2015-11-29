@@ -228,7 +228,7 @@ public class KYCClient {
 
 	}
 
-	private String generateSignedAuthXML(Auth auth) throws JAXBException,
+	public String generateSignedAuthXML(Auth auth) throws JAXBException,
 	Exception {
 		StringWriter authXML = new StringWriter();
 

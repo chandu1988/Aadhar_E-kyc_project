@@ -4102,7 +4102,7 @@ public class BankClientMainFrame extends javax.swing.JFrame {
 				kycClient.setDe(this.jCheckBoxDe.isSelected());
 				String kycResponseXML = kycClient.kycTrans(auth, this.jTextFieldAua.getText(),
 						this.jCheckBoxRa.isSelected(), this.jTextFieldASALicense.getText(), usesElement, customKYCXML);
-				displayAuthResults(kycResponseXML, false);
+				displayAuthResults(kycResponseXML, false, auth);
 			} else {
 				System.out.println("QA concurrent request mode");
 				kycClient.setMecLr(this.mecCheckbox.isSelected(), this.lrCheckbox.isSelected());
@@ -4119,7 +4119,7 @@ public class BankClientMainFrame extends javax.swing.JFrame {
 
 				String kycResponseXML = kycClient.kycTrans(auth, this.jTextFieldAua.getText(),
 						this.jCheckBoxRa.isSelected(), this.jTextFieldASALicense.getText(), usesElement, customKYCXML);
-				displayAuthResults(kycResponseXML, false);
+				displayAuthResults(kycResponseXML, false, auth);
 				System.out.println("QA concurrent requests completed");
 				JOptionPane.showMessageDialog(this, "All Requests got Response from KYCServer", "UID KYC Demo Client",
 						JOptionPane.INFORMATION_MESSAGE);
@@ -4190,9 +4190,14 @@ public class BankClientMainFrame extends javax.swing.JFrame {
 		return uses;
 	}
 
-	private void displayAuthResults(String kycResponseXML, boolean useProto) throws JAXBException {
+	private void displayAuthResults(String kycResponseXML, boolean useProto, Auth auth) throws JAXBException {
 		if (kycResponseXML.isEmpty()) {
-			new KYCResponseWindow();
+			try {
+				new KYCResponseWindow(kycClient.generateSignedAuthXML(auth));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
 			KycRes kycRes = (KycRes) XMLUtilities.parseXML(KycRes.class, kycResponseXML);
 			javax.swing.JLabel status = (useProto ? this.jLabelAuthStatusTextProto : this.jLabelAuthStatusTextXML);

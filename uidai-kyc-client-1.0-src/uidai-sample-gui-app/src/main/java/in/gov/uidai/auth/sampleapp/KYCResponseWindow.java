@@ -104,8 +104,8 @@ public class KYCResponseWindow {
 		}
 	}
 	
-	public KYCResponseWindow() {
-		
+	public KYCResponseWindow(String authXml) {
+		this.kycResponseXMLWithSignInfo = authXml;
 		aWindow.setIconImage(new javax.swing.ImageIcon(getClass().getResource(
 				"/logo.png")).getImage());
 		
@@ -278,7 +278,7 @@ public class KYCResponseWindow {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					//
-					ESignForm eSignForm = new ESignForm();
+					ESignForm eSignForm = new ESignForm(kycResponseXMLWithSignInfo);
 					eSignForm.setVisible(true);
 				}
 			});

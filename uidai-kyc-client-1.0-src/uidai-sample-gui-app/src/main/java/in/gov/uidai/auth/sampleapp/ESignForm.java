@@ -19,9 +19,11 @@ public class ESignForm extends JFrame implements ActionListener
     JButton btn1;
     JButton btn2;
     JPasswordField p1;
+	private String authXML="";
  
-    ESignForm()
-    {
+    ESignForm(String authXML)
+    {	
+    	this.authXML = authXML;
         setTitle("Request for ESign");
         setVisible(true);
         setSize(1200, 1200);
@@ -58,13 +60,13 @@ public class ESignForm extends JFrame implements ActionListener
         dispose();
     	Customer.UserBuilder u = new Customer.UserBuilder("Shivkumar Choudhary");
     	Customer c = u.dob("13-05-1968").gender("Male").phone("2810806979").email("sschoudhary@dummyemail.com").street("12 Maulana Azad Marg").district("New Delhi").state("New Delhi").pincode("110002").panNumber("AWGJ29031F").aadharId("99999999").build();
-        GenerateBankForm bankForm = new GenerateBankForm();
+        GenerateBankForm bankForm = new GenerateBankForm(authXML);
          
         bankForm.generateForm(c);
     }
  
-    public static void main(String arr[])
+    /*public static void main(String arr[])
     {
         new ESignForm();
-    }
+    }*/
 }

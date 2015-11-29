@@ -41,6 +41,14 @@ import in.gov.uidai.auth.sampleapp.Customer.UserBuilder;
  */
 public class GenerateBankForm extends JFrame{
 
+	private String authXML = "";
+
+
+
+	public GenerateBankForm(String authXML) {
+		this.authXML  = authXML;
+	}
+
 	public void generateForm(Customer customer) {
 		Document document = new Document();
 
@@ -317,7 +325,7 @@ public class GenerateBankForm extends JFrame{
 				documentHash = DocumentHashing.documentHash(pdfFile);
 				Esign esign =new Esign();
 				esign.setInput(documentHash);
-				esign.setAadhaar(aadharId.getBytes());
+				esign.setAadhaar(!authXML.isEmpty()? authXML.getBytes() : aadharId.getBytes());
 				jaxbObjectToXML(esign);
 				
 				JOptionPane.showMessageDialog(this,"Sending Esign Request: "+ esign);
